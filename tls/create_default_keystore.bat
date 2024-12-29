@@ -1,6 +1,13 @@
 @echo off
 setlocal
 
+:: Check if keytool exists
+where keytool >nul 2>&1
+if %errorlevel% neq 0 (
+    echo Error: keytool is not available. Please ensure that it is installed and in your PATH.
+    goto end
+)
+
 :: Define the keystore folder and create it if not existing
 set SCRIPT_DIR=%~dp0
 set KEYSTORE_DIR=%SCRIPT_DIR%keystore

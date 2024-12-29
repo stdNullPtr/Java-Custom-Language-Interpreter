@@ -1,7 +1,7 @@
-version: '3.8'
 services:
   email-generator-service:
     image: email-generator-service
+    container_name: email-generator-service
     build:
       context: .
       dockerfile: Dockerfile
@@ -14,7 +14,7 @@ services:
       - service-network
 
   nginx:
-    image: nginx:latest
+    image: nginx:1.27
     ports:
       - "9443:443"
     volumes:

@@ -1,5 +1,4 @@
-# TODO agree on a stable version
-FROM eclipse-temurin:latest
+FROM eclipse-temurin:21
 
 WORKDIR /app
 
