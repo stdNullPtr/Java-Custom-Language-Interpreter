@@ -14,8 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
@@ -50,10 +48,10 @@ class EmailControllerIT {
 
     @Test
     void generateEmails_missingQueryParams_shouldReturnBadRequest() throws Exception {
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+        final var requestBuilder = MockMvcRequestBuilders
                 .get("/app/v1/email/generate");
 
-        ResultActions actualPerformResult = controllerMockMvc.perform(requestBuilder);
+        final var actualPerformResult = controllerMockMvc.perform(requestBuilder);
 
         actualPerformResult.andExpect(status().is(BAD_REQUEST.value()))
                 .andExpect(result -> assertInstanceOf(HandlerMethodValidationException.class, result.getResolvedException()))
@@ -66,15 +64,15 @@ class EmailControllerIT {
      */
     @ParameterizedTest
     @MethodSource("com.stdnullptr.emailgenerator.util.TestData#invalidArgumentQueryParamsProvider")
-    void generateEmails_InvalidArgumentException_shouldReturnBadRequest(Map<String, MultiValueMap<String, String>> testParams) throws Exception {
-        MultiValueMap<String, String> queryParams = testParams.values().stream().findFirst().orElseThrow();
-        String expectedErrorMessage = testParams.keySet().stream().findFirst().get();
+    void generateEmails_InvalidArgumentException_shouldReturnBadRequest(final Map<String, MultiValueMap<String, String>> testParams) throws Exception {
+        final var queryParams = testParams.values().stream().findFirst().orElseThrow();
+        final var expectedErrorMessage = testParams.keySet().stream().findFirst().get();
 
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+        final var requestBuilder = MockMvcRequestBuilders
                 .get("/app/v1/email/generate")
                 .queryParams(queryParams);
 
-        ResultActions actualPerformResult = controllerMockMvc.perform(requestBuilder);
+        final var actualPerformResult = controllerMockMvc.perform(requestBuilder);
 
         actualPerformResult.andExpect(status().is(BAD_REQUEST.value()))
                 .andExpect(result -> assertInstanceOf(InvalidArgumentException.class, result.getResolvedException()))
@@ -87,15 +85,15 @@ class EmailControllerIT {
      */
     @ParameterizedTest
     @MethodSource("com.stdnullptr.emailgenerator.util.TestData#interpreterErrorQueryParamsProvider")
-    void generateEmails_interpreterException_shouldReturnBadRequest(Map<String, MultiValueMap<String, String>> testParams) throws Exception {
-        MultiValueMap<String, String> queryParams = testParams.values().stream().findFirst().orElseThrow();
-        String expectedErrorMessage = testParams.keySet().stream().findFirst().get();
+    void generateEmails_interpreterException_shouldReturnBadRequest(final Map<String, MultiValueMap<String, String>> testParams) throws Exception {
+        final var queryParams = testParams.values().stream().findFirst().orElseThrow();
+        final var expectedErrorMessage = testParams.keySet().stream().findFirst().get();
 
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+        final var requestBuilder = MockMvcRequestBuilders
                 .get("/app/v1/email/generate")
                 .queryParams(queryParams);
 
-        ResultActions actualPerformResult = controllerMockMvc.perform(requestBuilder);
+        final var actualPerformResult = controllerMockMvc.perform(requestBuilder);
 
         actualPerformResult.andExpect(status().is(BAD_REQUEST.value()))
                 .andExpect(result -> assertInstanceOf(InterpreterException.class, result.getResolvedException()))
@@ -105,7 +103,7 @@ class EmailControllerIT {
 
     @Test
     void generateEmails_success_shouldReturnOk() throws Exception {
-        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("str1", "Ivan");
         queryParams.add("str1", "Nikola");
         queryParams.add("str1", "Rado");
@@ -116,13 +114,13 @@ class EmailControllerIT {
         queryParams.add("expression",
                 "first(str1,2) ; raw(.) ; lit(str1) ; raw(@) ; first(str2, 4) ; raw(.) ; lit(str3)");
 
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+        final var requestBuilder = MockMvcRequestBuilders
                 .get("/app/v1/email/generate")
                 .queryParams(queryParams);
 
-        ResultActions actualPerformResult = controllerMockMvc.perform(requestBuilder);
+        final var actualPerformResult = controllerMockMvc.perform(requestBuilder);
 
-        String expectedResponse = Files.readString(ResourceUtils.getFile("classpath:response/testGenerateEmails_success_shouldReturnOk.json").toPath());
+        final var expectedResponse = Files.readString(ResourceUtils.getFile("classpath:response/testGenerateEmails_success_shouldReturnOk.json").toPath());
 
         actualPerformResult.andExpect(status().is(OK.value()))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

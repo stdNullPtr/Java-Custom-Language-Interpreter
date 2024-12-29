@@ -9,8 +9,8 @@ class FirstCharsExpression implements Expression {
     private final int numCharacters;
 
     @Override
-    public String interpret(Context ctx) {
-        String input = ctx.getValue(inputKey);
+    public String interpret(final Context ctx) {
+        final var input = ctx.getValue(inputKey);
 
         if (input == null) {
             throw new InterpreterException("Input value is null for input key: " + inputKey);
@@ -20,7 +20,7 @@ class FirstCharsExpression implements Expression {
             throw new InterpreterException("Number of characters cannot be negative: " + numCharacters);
         }
 
-        int endIndex = Math.min(numCharacters, input.length());
+        final var endIndex = Math.min(numCharacters, input.length());
         return input.substring(0, endIndex);
     }
 }

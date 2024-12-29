@@ -62,7 +62,8 @@ Or manually:
 2. Navigate to the [\nginx](nginx) folder in project root directory
 3. Create a **\certs** directory if not present: run ```mkdir certs```
 4. To generate a self-signed certificate
-   run ```openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout certs/nginx.key -out certs/nginx.crt -subj "/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.localhost.com"```
+   run
+   ```openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout certs/nginx.key -out certs/nginx.crt -subj "/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.localhost.com"```
 
 In both cases you will end up with a **.crt** and **.key** file in the **\nginx\certs** directory.
 
@@ -76,7 +77,8 @@ updated in both places if a name/location change occurs.
 To create self-signed certificates and a keystore for the service, you can use `keytool` command that comes with the
 JDK. To create a default certificate that is used in the default environment setup described in this documentation - you
 can use the provided [create_default_keystore.bat](tls/create_default_keystore.bat) script inside the [/tls](/tls)
-folder.
+folder. **YOU MUST HAVE ```keytool``` command present in PATH or edit the script to launch keytool from its'
+location ```C:\Users\<user>\.jdks\corretto-21.0.5\bin\keytool ...```**
 
 To use the helper script:
 
@@ -275,13 +277,13 @@ The simplest form of a new terminal expression:
 
 @RequiredArgsConstructor
 class SomeNewExpression implements Expression {
-	private final String inputKey;
+    private final String inputKey;
 
-	@Override
-	public String interpret(Context ctx) {
-		String input = ctx.getValue(inputKey);
-		return doSomeNewStringManipulation(input);
-	}
+    @Override
+    public String interpret(final Context ctx) {
+        final String input = ctx.getValue(inputKey);
+        return doSomeNewStringManipulation(input);
+    }
 }
 ```
 
@@ -291,18 +293,18 @@ The simplest form of a new non-terminal expression
 
 @RequiredArgsConstructor
 class SomeComplexConditionalExpression implements Expression {
-	private final Expression left;
-	private final Expression right;
-	private final Expression actionWhenTrue;
-	private final Expression actionWhenFalse;
+    private final Expression left;
+    private final Expression right;
+    private final Expression actionWhenTrue;
+    private final Expression actionWhenFalse;
 
-	@Override
-	public String interpret(Context ctx) {
-		if (left.interpret(ctx).equals(right.interpret(ctx))) {
-			return actionWhenTrue.interpret(ctx);
-		}
-		return actionWhenFalse;
-	}
+    @Override
+    public String interpret(final Context ctx) {
+        if (left.interpret(ctx).equals(right.interpret(ctx))) {
+            return actionWhenTrue.interpret(ctx);
+        }
+        return actionWhenFalse;
+    }
 }
 ```
 

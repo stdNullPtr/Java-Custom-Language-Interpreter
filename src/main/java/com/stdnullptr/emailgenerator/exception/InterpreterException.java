@@ -1,7 +1,7 @@
 package com.stdnullptr.emailgenerator.exception;
 
 public class InterpreterException extends RuntimeException {
-    public InterpreterException(String message) {
+    public InterpreterException(final String message) {
         super(message);
     }
 }

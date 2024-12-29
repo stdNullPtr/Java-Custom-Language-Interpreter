@@ -19,44 +19,44 @@ import java.nio.file.Files;
 @ActiveProfiles("test")
 public class EmailControllerTlsIT {
 
-	@Autowired
-	private WebTestClient webTestClient;
+    @Autowired
+    private WebTestClient webTestClient;
 
-	@Test
-	void generateEmails_missingQueryParams_shouldReturnBadRequest() {
-		webTestClient.get()
-				.uri("/app/v1/email/generate")
-				.exchange()
-				.expectStatus().isBadRequest()
-				.expectBody()
-				.jsonPath("$.message")
-				.isEqualTo("Invalid request argument(s): {queryParams=[Query parameters cannot be empty]}");
-	}
+    @Test
+    void generateEmails_missingQueryParams_shouldReturnBadRequest() {
+        webTestClient.get()
+                .uri("/app/v1/email/generate")
+                .exchange()
+                .expectStatus().isBadRequest()
+                .expectBody()
+                .jsonPath("$.message")
+                .isEqualTo("Invalid request argument(s): {queryParams=[Query parameters cannot be empty]}");
+    }
 
-	@Test
-	void generateEmails_success_shouldReturnOk() throws IOException {
-		MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-		queryParams.add("str1", "Ivan");
-		queryParams.add("str1", "Nikola");
-		queryParams.add("str1", "Rado");
-		queryParams.add("str2", "gmail");
-		queryParams.add("str2", "yahoo");
-		queryParams.add("str3", "com");
-		queryParams.add("str3", "bg");
-		queryParams.add("expression",
-				"first(str1,2) ; raw(.) ; lit(str1) ; raw(@) ; first(str2, 4) ; raw(.) ; lit(str3)");
+    @Test
+    void generateEmails_success_shouldReturnOk() throws IOException {
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add("str1", "Ivan");
+        queryParams.add("str1", "Nikola");
+        queryParams.add("str1", "Rado");
+        queryParams.add("str2", "gmail");
+        queryParams.add("str2", "yahoo");
+        queryParams.add("str3", "com");
+        queryParams.add("str3", "bg");
+        queryParams.add("expression",
+                "first(str1,2) ; raw(.) ; lit(str1) ; raw(@) ; first(str2, 4) ; raw(.) ; lit(str3)");
 
-		String expectedResponse = Files.readString(
-				ResourceUtils.getFile("classpath:response/testGenerateEmails_success_shouldReturnOk.json").toPath());
+        final var expectedResponse = Files.readString(
+                ResourceUtils.getFile("classpath:response/testGenerateEmails_success_shouldReturnOk.json").toPath());
 
-		webTestClient.get()
-				.uri(uriBuilder -> uriBuilder.path("/app/v1/email/generate")
-						.queryParams(queryParams)
-						.build())
-				.exchange()
-				.expectStatus().isOk()
-				.expectBody()
-				.json(expectedResponse);
-	}
+        webTestClient.get()
+                .uri(uriBuilder -> uriBuilder.path("/app/v1/email/generate")
+                        .queryParams(queryParams)
+                        .build())
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .json(expectedResponse);
+    }
 
 }

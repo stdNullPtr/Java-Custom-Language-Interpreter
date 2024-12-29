@@ -9,47 +9,47 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class RawExpressionTest {
 
-	@Test
-	void interpret_ShouldReturnRawValue() {
-		Context context = Util.createContext(new HashMap<>());
-		String rawValue = "This is a raw value";
-		RawExpression expression = new RawExpression(rawValue);
+    @Test
+    void interpret_ShouldReturnRawValue() {
+        final var context = Util.createContext(new HashMap<>());
+        final var rawValue = "This is a raw value";
+        final var expression = new RawExpression(rawValue);
 
-		String result = expression.interpret(context);
+        final var result = expression.interpret(context);
 
-		assertEquals(rawValue, result);
-	}
+        assertEquals(rawValue, result);
+    }
 
-	@Test
-	void interpret_ShouldReturnEmptyStringWhenValueIsEmpty() {
-		Context context = Util.createContext(new HashMap<>());
-		String emptyValue = "";
-		RawExpression expression = new RawExpression(emptyValue);
+    @Test
+    void interpret_ShouldReturnEmptyStringWhenValueIsEmpty() {
+        final var context = Util.createContext(new HashMap<>());
+        final var emptyValue = "";
+        final var expression = new RawExpression(emptyValue);
 
-		String result = expression.interpret(context);
+        final var result = expression.interpret(context);
 
-		assertEquals(emptyValue, result);
-	}
+        assertEquals(emptyValue, result);
+    }
 
-	@Test
-	void interpret_ShouldReturnProvidedNumericValue() {
-		Context context = Util.createContext(new HashMap<>());
-		String numericValue = "12345";
-		RawExpression expression = new RawExpression(numericValue);
+    @Test
+    void interpret_ShouldReturnProvidedNumericValue() {
+        final var context = Util.createContext(new HashMap<>());
+        final var numericValue = "12345";
+        final var expression = new RawExpression(numericValue);
 
-		String result = expression.interpret(context);
+        final var result = expression.interpret(context);
 
-		assertEquals(numericValue, result);
-	}
+        assertEquals(numericValue, result);
+    }
 
-	@Test
-	void interpret_ShouldReturnSpecialCharacters() {
-		Context context = Util.createContext(new HashMap<>());
-		String specialChars = "@#$%^&*";
-		RawExpression expression = new RawExpression(specialChars);
+    @Test
+    void interpret_ShouldReturnSpecialCharacters() {
+        final var context = Util.createContext(new HashMap<>());
+        final var specialChars = "@#$%^&*";
+        final var expression = new RawExpression(specialChars);
 
-		String result = expression.interpret(context);
+        final var result = expression.interpret(context);
 
-		assertEquals(specialChars, result);
-	}
+        assertEquals(specialChars, result);
+    }
 }

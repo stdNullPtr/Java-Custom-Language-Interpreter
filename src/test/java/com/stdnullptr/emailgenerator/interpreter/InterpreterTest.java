@@ -15,108 +15,108 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class InterpreterTest {
 
-	@ParameterizedTest
-	@MethodSource("com.stdnullptr.emailgenerator.util.TestData#validInputInterpreterProvider")
-	void evaluate_WithValidExpression_ShouldReturnExpectedResult(Map<String, Map<String, String>> testParams) {
-		Map<String, String> inputs = testParams.values().stream().findFirst().orElseThrow();
-		String expression = Optional.ofNullable(inputs.remove("expression")).orElseThrow();
-		String expectedResult = testParams.keySet().stream().findFirst().orElseThrow();
+    @ParameterizedTest
+    @MethodSource("com.stdnullptr.emailgenerator.util.TestData#validInputInterpreterProvider")
+    void evaluate_WithValidExpression_ShouldReturnExpectedResult(final Map<String, Map<String, String>> testParams) {
+        final var inputs = testParams.values().stream().findFirst().orElseThrow();
+        final var expression = Optional.ofNullable(inputs.remove("expression")).orElseThrow();
+        final var expectedResult = testParams.keySet().stream().findFirst().orElseThrow();
 
-		Context context = Util.createContext(inputs);
+        final var context = Util.createContext(inputs);
 
-		String result = Interpreter.evaluate(expression, context);
+        final var result = Interpreter.evaluate(expression, context);
 
-		assertEquals(expectedResult, result);
-	}
+        assertEquals(expectedResult, result);
+    }
 
-	@Test
-	void evaluate_WithInvalidExpression_ShouldThrow() {
-		Map<String, String> inputs = new HashMap<>();
-		inputs.put("str1", "test");
-		Context context = Util.createContext(inputs);
+    @Test
+    void evaluate_WithInvalidExpression_ShouldThrow() {
+        final Map<String, String> inputs = new HashMap<>();
+        inputs.put("str1", "test");
+        final var context = Util.createContext(inputs);
 
-		String expression = "first(str1,1);invalid(str1, 2)";
+        final var expression = "first(str1,1);invalid(str1, 2)";
 
-		InterpreterException thrown = assertThrows(InterpreterException.class, () ->
-				Interpreter.evaluate(expression, context));
+        final var thrown = assertThrows(InterpreterException.class, () ->
+                Interpreter.evaluate(expression, context));
 
-		assertEquals("Unknown expression: invalid(str1, 2)", thrown.getMessage(), "Expected specific message on failure");
-	}
+        assertEquals("Unknown expression: invalid(str1, 2)", thrown.getMessage(), "Expected specific message on failure");
+    }
 
-	@Test
-	void evaluate_WithInvalidInput_ShouldThrow() {
-		Map<String, String> inputs = new HashMap<>();
-		inputs.put("wrong1", "test");
-		Context context = Util.createContext(inputs);
+    @Test
+    void evaluate_WithInvalidInput_ShouldThrow() {
+        final Map<String, String> inputs = new HashMap<>();
+        inputs.put("wrong1", "test");
+        final var context = Util.createContext(inputs);
 
-		String expression = "first(str1,1)";
+        final var expression = "first(str1,1)";
 
-		InterpreterException thrown = assertThrows(InterpreterException.class, () ->
-				Interpreter.evaluate(expression, context));
+        final var thrown = assertThrows(InterpreterException.class, () ->
+                Interpreter.evaluate(expression, context));
 
-		assertEquals("Input value is null for input key: str1", thrown.getMessage(), "Expected specific message on failure");
-	}
+        assertEquals("Input value is null for input key: str1", thrown.getMessage(), "Expected specific message on failure");
+    }
 
-	@Test
-	void evaluate_WithInvalidExpressionParam_ShouldThrow() {
-		Map<String, String> inputs = new HashMap<>();
-		inputs.put("str1", "Ivan");
-		Context context = Util.createContext(inputs);
+    @Test
+    void evaluate_WithInvalidExpressionParam_ShouldThrow() {
+        final Map<String, String> inputs = new HashMap<>();
+        inputs.put("str1", "Ivan");
+        final var context = Util.createContext(inputs);
 
-		String expression = "first(str1,str1)";
+        final var expression = "first(str1,str1)";
 
-		InterpreterException thrown = assertThrows(InterpreterException.class, () ->
-				Interpreter.evaluate(expression, context));
+        final var thrown = assertThrows(InterpreterException.class, () ->
+                Interpreter.evaluate(expression, context));
 
-		assertEquals("Invalid number parameter: For input string: \"str1\"", thrown.getMessage(), "Expected specific message on failure");
-	}
+        assertEquals("Invalid number parameter: For input string: \"str1\"", thrown.getMessage(), "Expected specific message on failure");
+    }
 
-	@Test
-	void evaluate_WithMalformedExpressionParam_ShouldThrow() {
-		Map<String, String> inputs = new HashMap<>();
-		inputs.put("str1", "Ivan");
-		Context context = Util.createContext(inputs);
+    @Test
+    void evaluate_WithMalformedExpressionParam_ShouldThrow() {
+        final Map<String, String> inputs = new HashMap<>();
+        inputs.put("str1", "Ivan");
+        final var context = Util.createContext(inputs);
 
-		String expression = "first(str1,1;raw(test)";
+        final var expression = "first(str1,1;raw(test)";
 
-		InterpreterException thrown = assertThrows(InterpreterException.class, () ->
-				Interpreter.evaluate(expression, context));
+        final var thrown = assertThrows(InterpreterException.class, () ->
+                Interpreter.evaluate(expression, context));
 
-		assertEquals("Expression must start with an operation name and follow with parameters in parentheses.", thrown.getMessage(), "Expected specific message on failure");
-	}
+        assertEquals("Expression must start with an operation name and follow with parameters in parentheses.", thrown.getMessage(), "Expected specific message on failure");
+    }
 
-	@Test
-	void evaluate_WithMissingExpressionParam_ShouldThrow() {
-		Map<String, String> inputs = new HashMap<>();
-		inputs.put("str1", "Ivan");
-		Context context = Util.createContext(inputs);
+    @Test
+    void evaluate_WithMissingExpressionParam_ShouldThrow() {
+        final Map<String, String> inputs = new HashMap<>();
+        inputs.put("str1", "Ivan");
+        final var context = Util.createContext(inputs);
 
-		InterpreterException thrownNull = assertThrows(InterpreterException.class, () ->
-				Interpreter.evaluate(null, context));
+        final var thrownNull = assertThrows(InterpreterException.class, () ->
+                Interpreter.evaluate(null, context));
 
-		InterpreterException thrownEmpty = assertThrows(InterpreterException.class, () ->
-				Interpreter.evaluate("", context));
+        final var thrownEmpty = assertThrows(InterpreterException.class, () ->
+                Interpreter.evaluate("", context));
 
-		InterpreterException thrownBlank = assertThrows(InterpreterException.class, () ->
-				Interpreter.evaluate(" ", context));
+        final var thrownBlank = assertThrows(InterpreterException.class, () ->
+                Interpreter.evaluate(" ", context));
 
-		assertEquals("Expression is empty", thrownNull.getMessage(), "Expected specific message on failure");
-		assertEquals("Expression is empty", thrownEmpty.getMessage(), "Expected specific message on failure");
-		assertEquals("Expression is empty", thrownBlank.getMessage(), "Expected specific message on failure");
-	}
+        assertEquals("Expression is empty", thrownNull.getMessage(), "Expected specific message on failure");
+        assertEquals("Expression is empty", thrownEmpty.getMessage(), "Expected specific message on failure");
+        assertEquals("Expression is empty", thrownBlank.getMessage(), "Expected specific message on failure");
+    }
 
-	@Test
-	void evaluate_WithMissingInputParam_ShouldThrow() {
-		Map<String, String> inputs = new HashMap<>();
-		Context context = Util.createContext(inputs);
+    @Test
+    void evaluate_WithMissingInputParam_ShouldThrow() {
+        final Map<String, String> inputs = new HashMap<>();
+        final var context = Util.createContext(inputs);
 
-		String expression = "first(str1,1);raw(test)";
+        final var expression = "first(str1,1);raw(test)";
 
-		InterpreterException thrown = assertThrows(InterpreterException.class, () ->
-				Interpreter.evaluate(expression, context));
+        final var thrown = assertThrows(InterpreterException.class, () ->
+                Interpreter.evaluate(expression, context));
 
-		assertEquals("Input value is null for input key: str1", thrown.getMessage(), "Expected specific message on failure");
-	}
+        assertEquals("Input value is null for input key: str1", thrown.getMessage(), "Expected specific message on failure");
+    }
 
 
 }

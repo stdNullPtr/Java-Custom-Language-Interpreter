@@ -9,7 +9,7 @@ class LengthComparisonExpression implements Expression {
     private final Expression action;
 
     @Override
-    public String interpret(Context ctx) {
+    public String interpret(final Context ctx) {
         if (left.interpret(ctx).length() > right.interpret(ctx).length()) {
             return action.interpret(ctx);
         }

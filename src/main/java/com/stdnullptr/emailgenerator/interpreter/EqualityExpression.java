@@ -9,8 +9,8 @@ class EqualityExpression implements Expression {
     private final Expression action;
 
     @Override
-    public String interpret(Context ctx) {
-        if (left.interpret(ctx).equals(right.interpret(ctx))){
+    public String interpret(final Context ctx) {
+        if (left.interpret(ctx).equals(right.interpret(ctx))) {
             return action.interpret(ctx);
         }
         return ""; // If we did not meet the condition, just return an empty string

@@ -10,8 +10,8 @@ class SubstringExpression implements Expression {
     private final int endIndex;
 
     @Override
-    public String interpret(Context ctx) {
-        String input = ctx.getValue(inputKey);
+    public String interpret(final Context ctx) {
+        final var input = ctx.getValue(inputKey);
 
         if (input == null) {
             throw new InterpreterException("Input value is null for input key: " + inputKey);
@@ -21,7 +21,7 @@ class SubstringExpression implements Expression {
             throw new InterpreterException("Start index out of bounds for substring expression, index: " + startIndex);
         }
 
-        int safeEndIndex = Math.min(endIndex, input.length());
+        final var safeEndIndex = Math.min(endIndex, input.length());
 
         if (safeEndIndex < startIndex) {
             throw new InterpreterException("End index is less than start index: " + endIndex);

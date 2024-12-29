@@ -14,94 +14,94 @@ import static org.mockito.Mockito.when;
 
 class LengthComparisonExpressionTest {
 
-	private AutoCloseable mocksCloseable;
+    private AutoCloseable mocksCloseable;
 
-	@Mock
-	private Expression left;
+    @Mock
+    private Expression left;
 
-	@Mock
-	private Expression right;
+    @Mock
+    private Expression right;
 
-	@Mock
-	private Expression action;
+    @Mock
+    private Expression action;
 
-	@BeforeEach
-	void setUp() {
-		mocksCloseable = MockitoAnnotations.openMocks(this);
-	}
+    @BeforeEach
+    void setUp() {
+        mocksCloseable = MockitoAnnotations.openMocks(this);
+    }
 
-	@AfterEach
-	void tearDown() throws Exception {
-		mocksCloseable.close();
-	}
+    @AfterEach
+    void tearDown() throws Exception {
+        mocksCloseable.close();
+    }
 
-	@Test
-	void interpret_ShouldReturnActionWhenLeftIsLonger() {
-		Context context = Util.createContext(new HashMap<>());
-		when(left.interpret(context)).thenReturn("longer text");
-		when(right.interpret(context)).thenReturn("short");
-		when(action.interpret(context)).thenReturn("action result");
+    @Test
+    void interpret_ShouldReturnActionWhenLeftIsLonger() {
+        final var context = Util.createContext(new HashMap<>());
+        when(left.interpret(context)).thenReturn("longer text");
+        when(right.interpret(context)).thenReturn("short");
+        when(action.interpret(context)).thenReturn("action result");
 
-		LengthComparisonExpression comparison = new LengthComparisonExpression(left, right, action);
+        final var comparison = new LengthComparisonExpression(left, right, action);
 
-		String result = comparison.interpret(context);
+        final var result = comparison.interpret(context);
 
-		assertEquals("action result", result);
-	}
+        assertEquals("action result", result);
+    }
 
-	@Test
-	void interpret_ShouldReturnEmptyWhenRightIsLonger() {
-		Context context = Util.createContext(new HashMap<>());
-		when(left.interpret(context)).thenReturn("short");
-		when(right.interpret(context)).thenReturn("longer text");
-		when(action.interpret(context)).thenReturn("action result");
+    @Test
+    void interpret_ShouldReturnEmptyWhenRightIsLonger() {
+        final var context = Util.createContext(new HashMap<>());
+        when(left.interpret(context)).thenReturn("short");
+        when(right.interpret(context)).thenReturn("longer text");
+        when(action.interpret(context)).thenReturn("action result");
 
-		LengthComparisonExpression comparison = new LengthComparisonExpression(left, right, action);
+        final var comparison = new LengthComparisonExpression(left, right, action);
 
-		String result = comparison.interpret(context);
+        final var result = comparison.interpret(context);
 
-		assertEquals("", result);
-	}
+        assertEquals("", result);
+    }
 
-	@Test
-	void interpret_ShouldReturnEmptyWhenLengthsAreEqual() {
-		Context context = Util.createContext(new HashMap<>());
-		when(left.interpret(context)).thenReturn("same length");
-		when(right.interpret(context)).thenReturn("same length");
-		when(action.interpret(context)).thenReturn("action result");
+    @Test
+    void interpret_ShouldReturnEmptyWhenLengthsAreEqual() {
+        final var context = Util.createContext(new HashMap<>());
+        when(left.interpret(context)).thenReturn("same length");
+        when(right.interpret(context)).thenReturn("same length");
+        when(action.interpret(context)).thenReturn("action result");
 
-		LengthComparisonExpression comparison = new LengthComparisonExpression(left, right, action);
+        final var comparison = new LengthComparisonExpression(left, right, action);
 
-		String result = comparison.interpret(context);
+        final var result = comparison.interpret(context);
 
-		assertEquals("", result);
-	}
+        assertEquals("", result);
+    }
 
-	@Test
-	void interpret_ShouldReturnEmptyWhenBothAreEmpty() {
-		Context context = Util.createContext(new HashMap<>());
-		when(left.interpret(context)).thenReturn("");
-		when(right.interpret(context)).thenReturn("");
-		when(action.interpret(context)).thenReturn("action result");
+    @Test
+    void interpret_ShouldReturnEmptyWhenBothAreEmpty() {
+        final var context = Util.createContext(new HashMap<>());
+        when(left.interpret(context)).thenReturn("");
+        when(right.interpret(context)).thenReturn("");
+        when(action.interpret(context)).thenReturn("action result");
 
-		LengthComparisonExpression comparison = new LengthComparisonExpression(left, right, action);
+        final var comparison = new LengthComparisonExpression(left, right, action);
 
-		String result = comparison.interpret(context);
+        final var result = comparison.interpret(context);
 
-		assertEquals("", result);
-	}
+        assertEquals("", result);
+    }
 
-	@Test
-	void interpret_ShouldReturnEmptyWhenActionIsEmpty() {
-		Context context = Util.createContext(new HashMap<>());
-		when(left.interpret(context)).thenReturn("longer text");
-		when(right.interpret(context)).thenReturn("short");
-		when(action.interpret(context)).thenReturn("");
+    @Test
+    void interpret_ShouldReturnEmptyWhenActionIsEmpty() {
+        final var context = Util.createContext(new HashMap<>());
+        when(left.interpret(context)).thenReturn("longer text");
+        when(right.interpret(context)).thenReturn("short");
+        when(action.interpret(context)).thenReturn("");
 
-		LengthComparisonExpression comparison = new LengthComparisonExpression(left, right, action);
+        final var comparison = new LengthComparisonExpression(left, right, action);
 
-		String result = comparison.interpret(context);
+        final var result = comparison.interpret(context);
 
-		assertEquals("", result);
-	}
+        assertEquals("", result);
+    }
 }

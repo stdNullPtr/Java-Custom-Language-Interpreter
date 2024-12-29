@@ -17,11 +17,11 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class EmailGeneratorService {
-    public List<String> generateEmails(MultiValueMap<String, String> inputs) {
+    public List<String> generateEmails(final MultiValueMap<String, String> inputs) {
         log.info("Generating emails for input {}", inputs);
 
         // Should contain 1 element, a single 'expression' parameter
-        List<String> expressionList = inputs.remove("expression");
+        final var expressionList = inputs.remove("expression");
 
         if (expressionList == null || expressionList.isEmpty()) {
             throw new InvalidArgumentException("An 'expression' string is required.");
@@ -35,7 +35,7 @@ public class EmailGeneratorService {
         if (inputs.keySet().stream().anyMatch(key -> !key.startsWith("str"))) {
             throw new InvalidArgumentException("The only allowed input prefix is 'str' followed by a number.");
         }
-        String expression = expressionList.getFirst().trim();
+        final var expression = expressionList.getFirst().trim();
         if (expression.isEmpty()) {
             throw new InvalidArgumentException("The 'expression' cannot be empty.");
         }
@@ -43,23 +43,23 @@ public class EmailGeneratorService {
         return parseExpression(inputs, expression);
     }
 
-    public List<String> parseExpression(MultiValueMap<String, String> inputs, String expression) {
-        List<String> results = new ArrayList<>();
+    public List<String> parseExpression(final MultiValueMap<String, String> inputs, final String expression) {
+        final List<String> results = new ArrayList<>();
 
-        List<Context> allContexts = prepareContexts(inputs);
+        final var allContexts = prepareContexts(inputs);
 
-        for (Context context : allContexts) {
-            String evaluatedExpression = Interpreter.evaluate(expression, context);
+        for (final var context : allContexts) {
+            final var evaluatedExpression = Interpreter.evaluate(expression, context);
             results.add(evaluatedExpression);
         }
 
         return results;
     }
 
-    public List<Context> prepareContexts(MultiValueMap<String, String> inputs) {
-        List<Context> contexts = new ArrayList<>();
+    public List<Context> prepareContexts(final MultiValueMap<String, String> inputs) {
+        final List<Context> contexts = new ArrayList<>();
 
-        List<HashMap<String, String>> results = new ArrayList<>();
+        final List<HashMap<String, String>> results = new ArrayList<>();
         recursiveFlattenMultiValueMap(new ArrayList<>(inputs.keySet()), new HashMap<>(), inputs, results, 0);
 
         results.forEach(c -> contexts.add(new Context(c)));
@@ -70,15 +70,15 @@ public class EmailGeneratorService {
     /***
      * TODO Potential issues with recursion, but it is way cleaner than iterative approach
      */
-    public void recursiveFlattenMultiValueMap(List<String> keys, HashMap<String, String> current, MultiValueMap<String, String> originalInputs, List<HashMap<String, String>> results, int depth) {
+    public void recursiveFlattenMultiValueMap(final List<String> keys, final HashMap<String, String> current, final MultiValueMap<String, String> originalInputs, final List<HashMap<String, String>> results, final int depth) {
         if (depth == keys.size()) {
             results.add(new HashMap<>(current));
             return;
         }
 
-        String key = keys.get(depth);
-        Collection<String> values = originalInputs.get(key);
-        for (String value : values) {
+        final var key = keys.get(depth);
+        final Collection<String> values = originalInputs.get(key);
+        for (final var value : values) {
             current.put(key, value);
             recursiveFlattenMultiValueMap(keys, current, originalInputs, results, depth + 1);
         }

@@ -8,26 +8,26 @@ import java.util.Arrays;
 @Getter
 @RequiredArgsConstructor
 enum Operations {
-	FIRST("first"),
-	LAST("last"),
-	SUBSTR("substr"),
-	LIT("lit"),
-	RAW("raw"),
-	EQ("eq"),
-	LONGER("longer");
+    FIRST("first"),
+    LAST("last"),
+    SUBSTR("substr"),
+    LIT("lit"),
+    RAW("raw"),
+    EQ("eq"),
+    LONGER("longer");
 
-	private final String operationName;
+    private final String operationName;
 
-	public static boolean isOperation(String operationName) {
-		if (operationName == null) {
-			return false;
-		}
-		return Arrays.stream(Operations.values()).anyMatch(op -> operationName.startsWith(op.toString()));
-	}
+    public static boolean isOperation(final String operationName) {
+        if (operationName == null) {
+            return false;
+        }
+        return Arrays.stream(Operations.values()).anyMatch(op -> operationName.startsWith(op.toString()));
+    }
 
-	@Override
-	public String toString() {
-		return this.operationName;
-	}
+    @Override
+    public String toString() {
+        return this.operationName;
+    }
 }
 

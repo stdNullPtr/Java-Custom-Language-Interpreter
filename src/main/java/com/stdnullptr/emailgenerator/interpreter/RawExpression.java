@@ -7,7 +7,7 @@ class RawExpression implements Expression {
     private final String value;
 
     @Override
-    public String interpret(Context ctx) {
+    public String interpret(final Context ctx) {
         return value;
     }
 }

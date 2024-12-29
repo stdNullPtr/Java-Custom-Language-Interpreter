@@ -12,88 +12,88 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class FirstCharsExpressionTest {
 
-	@Test
-	void interpret_ShouldReturnSubstringWhenInputIsValid() {
-		Map<String, String> inputs = new HashMap<>();
-		inputs.put("testKey", "hello world");
-		Context context = Util.createContext(inputs);
-		FirstCharsExpression expression = new FirstCharsExpression("testKey", 5);
+    @Test
+    void interpret_ShouldReturnSubstringWhenInputIsValid() {
+        final Map<String, String> inputs = new HashMap<>();
+        inputs.put("testKey", "hello world");
+        final var context = Util.createContext(inputs);
+        final var expression = new FirstCharsExpression("testKey", 5);
 
-		String result = expression.interpret(context);
+        final var result = expression.interpret(context);
 
-		assertEquals("hello", result);
-	}
+        assertEquals("hello", result);
+    }
 
-	@Test
-	void interpret_ShouldReturnFullStringWhenNumCharsEqualsStringLength() {
-		Map<String, String> inputs = new HashMap<>();
-		inputs.put("testKey", "hello");
-		Context context = Util.createContext(inputs);
-		FirstCharsExpression expression = new FirstCharsExpression("testKey", 5);
+    @Test
+    void interpret_ShouldReturnFullStringWhenNumCharsEqualsStringLength() {
+        final Map<String, String> inputs = new HashMap<>();
+        inputs.put("testKey", "hello");
+        final var context = Util.createContext(inputs);
+        final var expression = new FirstCharsExpression("testKey", 5);
 
-		String result = expression.interpret(context);
+        final var result = expression.interpret(context);
 
-		assertEquals("hello", result);
-	}
+        assertEquals("hello", result);
+    }
 
-	@Test
-	void interpret_ShouldReturnEmptyWhenInputIsEmpty() {
-		Map<String, String> inputs = new HashMap<>();
-		inputs.put("testKey", "");
-		Context context = Util.createContext(inputs);
-		FirstCharsExpression expression = new FirstCharsExpression("testKey", 5);
+    @Test
+    void interpret_ShouldReturnEmptyWhenInputIsEmpty() {
+        final Map<String, String> inputs = new HashMap<>();
+        inputs.put("testKey", "");
+        final var context = Util.createContext(inputs);
+        final var expression = new FirstCharsExpression("testKey", 5);
 
-		String result = expression.interpret(context);
+        final var result = expression.interpret(context);
 
-		assertEquals("", result);
-	}
+        assertEquals("", result);
+    }
 
-	@Test
-	void interpret_ShouldReturnStringWhenNumCharsIsGreaterThanStringLength() {
-		Map<String, String> inputs = new HashMap<>();
-		inputs.put("testKey", "hello");
-		Context context = Util.createContext(inputs);
-		FirstCharsExpression expression = new FirstCharsExpression("testKey", 10);
+    @Test
+    void interpret_ShouldReturnStringWhenNumCharsIsGreaterThanStringLength() {
+        final Map<String, String> inputs = new HashMap<>();
+        inputs.put("testKey", "hello");
+        final var context = Util.createContext(inputs);
+        final var expression = new FirstCharsExpression("testKey", 10);
 
-		String result = expression.interpret(context);
+        final var result = expression.interpret(context);
 
-		assertEquals("hello", result);
-	}
+        assertEquals("hello", result);
+    }
 
-	@Test
-	void interpret_ShouldThrowExceptionWhenInputIsNull() {
-		Map<String, String> inputs = new HashMap<>();
-		inputs.put("testKey", null);
-		Context context = Util.createContext(inputs);
-		FirstCharsExpression expression = new FirstCharsExpression("testKey", 5);
+    @Test
+    void interpret_ShouldThrowExceptionWhenInputIsNull() {
+        final Map<String, String> inputs = new HashMap<>();
+        inputs.put("testKey", null);
+        final var context = Util.createContext(inputs);
+        final var expression = new FirstCharsExpression("testKey", 5);
 
-		InterpreterException thrown = assertThrows(InterpreterException.class, () -> expression.interpret(context));
+        final var thrown = assertThrows(InterpreterException.class, () -> expression.interpret(context));
 
-		assertEquals("Input value is null for input key: testKey", thrown.getMessage());
-	}
+        assertEquals("Input value is null for input key: testKey", thrown.getMessage());
+    }
 
-	@Test
-	void interpret_ShouldThrowExceptionWhenNumCharactersIsNegative() {
-		Map<String, String> inputs = new HashMap<>();
-		inputs.put("testKey", "hello world");
-		Context context = Util.createContext(inputs);
-		FirstCharsExpression expression = new FirstCharsExpression("testKey", -1);
+    @Test
+    void interpret_ShouldThrowExceptionWhenNumCharactersIsNegative() {
+        final Map<String, String> inputs = new HashMap<>();
+        inputs.put("testKey", "hello world");
+        final var context = Util.createContext(inputs);
+        final var expression = new FirstCharsExpression("testKey", -1);
 
-		InterpreterException thrown = assertThrows(InterpreterException.class, () -> expression.interpret(context));
+        final var thrown = assertThrows(InterpreterException.class, () -> expression.interpret(context));
 
-		assertEquals("Number of characters cannot be negative: -1", thrown.getMessage());
-	}
+        assertEquals("Number of characters cannot be negative: -1", thrown.getMessage());
+    }
 
-	@Test
-	void interpret_ShouldIgnoreIrrelevantContextEntries() {
-		Map<String, String> inputs = new HashMap<>();
-		inputs.put("testKey", "hello world");
-		inputs.put("irrelevantKey", "irrelevantValue");
-		Context context = Util.createContext(inputs);
-		FirstCharsExpression expression = new FirstCharsExpression("testKey", 5);
+    @Test
+    void interpret_ShouldIgnoreIrrelevantContextEntries() {
+        final Map<String, String> inputs = new HashMap<>();
+        inputs.put("testKey", "hello world");
+        inputs.put("irrelevantKey", "irrelevantValue");
+        final var context = Util.createContext(inputs);
+        final var expression = new FirstCharsExpression("testKey", 5);
 
-		String result = expression.interpret(context);
+        final var result = expression.interpret(context);
 
-		assertEquals("hello", result);
-	}
+        assertEquals("hello", result);
+    }
 }

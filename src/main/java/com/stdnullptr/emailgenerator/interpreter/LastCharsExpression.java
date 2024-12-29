@@ -9,8 +9,8 @@ class LastCharsExpression implements Expression {
     private final int numCharacters;
 
     @Override
-    public String interpret(Context ctx) {
-        String input = ctx.getValue(inputKey);
+    public String interpret(final Context ctx) {
+        final var input = ctx.getValue(inputKey);
 
         if (input == null) {
             throw new InterpreterException("Input value is null for input key: " + inputKey);
@@ -20,8 +20,8 @@ class LastCharsExpression implements Expression {
             throw new InterpreterException("Number of characters cannot be negative: " + numCharacters);
         }
 
-        int inputLength = input.length();
-        int start = Math.max(0, inputLength - numCharacters);
+        final var inputLength = input.length();
+        final var start = Math.max(0, inputLength - numCharacters);
 
         return input.substring(start);
     }

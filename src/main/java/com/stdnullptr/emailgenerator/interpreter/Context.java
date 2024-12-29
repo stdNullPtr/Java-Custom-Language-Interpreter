@@ -5,11 +5,11 @@ import java.util.Map;
 public class Context {
     private final Map<String, String> inputs;
 
-    public Context(Map<String, String> inputs) {
+    public Context(final Map<String, String> inputs) {
         this.inputs = inputs;
     }
 
-    public String getValue(String key) {
+    public String getValue(final String key) {
         return inputs.get(key);
     }
 }

@@ -12,38 +12,38 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class LiteralExpressionTest {
 
-	@Test
-	void interpret_ShouldReturnInputValueWhenInputIsValid() {
-		Map<String, String> inputs = new HashMap<>();
-		inputs.put("testKey", "expected value");
-		Context context = Util.createContext(inputs);
-		LiteralExpression expression = new LiteralExpression("testKey");
+    @Test
+    void interpret_ShouldReturnInputValueWhenInputIsValid() {
+        final Map<String, String> inputs = new HashMap<>();
+        inputs.put("testKey", "expected value");
+        final var context = Util.createContext(inputs);
+        final var expression = new LiteralExpression("testKey");
 
-		String result = expression.interpret(context);
+        final var result = expression.interpret(context);
 
-		assertEquals("expected value", result);
-	}
+        assertEquals("expected value", result);
+    }
 
-	@Test
-	void interpret_ShouldThrowExceptionWhenInputIsNull() {
-		Map<String, String> inputs = new HashMap<>();
-		inputs.put("testKey", null);
-		Context context = Util.createContext(inputs);
-		LiteralExpression expression = new LiteralExpression("testKey");
+    @Test
+    void interpret_ShouldThrowExceptionWhenInputIsNull() {
+        final Map<String, String> inputs = new HashMap<>();
+        inputs.put("testKey", null);
+        final var context = Util.createContext(inputs);
+        final var expression = new LiteralExpression("testKey");
 
-		InterpreterException thrown = assertThrows(InterpreterException.class, () -> expression.interpret(context));
+        final var thrown = assertThrows(InterpreterException.class, () -> expression.interpret(context));
 
-		assertEquals("Input value is null for input key: testKey", thrown.getMessage());
-	}
+        assertEquals("Input value is null for input key: testKey", thrown.getMessage());
+    }
 
-	@Test
-	void interpret_ShouldThrowExceptionWhenInputKeyIsMissing() {
-		Map<String, String> inputs = new HashMap<>();
-		Context context = Util.createContext(inputs);
-		LiteralExpression expression = new LiteralExpression("missingKey");
+    @Test
+    void interpret_ShouldThrowExceptionWhenInputKeyIsMissing() {
+        final Map<String, String> inputs = new HashMap<>();
+        final var context = Util.createContext(inputs);
+        final var expression = new LiteralExpression("missingKey");
 
-		InterpreterException thrown = assertThrows(InterpreterException.class, () -> expression.interpret(context));
+        final var thrown = assertThrows(InterpreterException.class, () -> expression.interpret(context));
 
-		assertEquals("Input value is null for input key: missingKey", thrown.getMessage());
-	}
+        assertEquals("Input value is null for input key: missingKey", thrown.getMessage());
+    }
 }

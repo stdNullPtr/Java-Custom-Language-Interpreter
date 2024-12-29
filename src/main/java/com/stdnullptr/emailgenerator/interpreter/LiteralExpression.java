@@ -8,8 +8,8 @@ class LiteralExpression implements Expression {
     private final String inputKey;
 
     @Override
-    public String interpret(Context ctx) {
-        String value = ctx.getValue(inputKey);
+    public String interpret(final Context ctx) {
+        final var value = ctx.getValue(inputKey);
         if (value == null) {
             throw new InterpreterException("Input value is null for input key: " + inputKey);
         }
