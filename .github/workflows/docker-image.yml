@@ -72,6 +72,6 @@ jobs:
       - name: Check running containers
         run: docker ps -a
       - name: Check service logs
-        run: docker logs dynamic-email-generator_email-generator-service_1
+        run: docker logs email-generator-service
       - name: Check nginx logs
-        run: docker logs dynamic-email-generator_nginx_1
+        run: docker logs nginx-reverse-proxy

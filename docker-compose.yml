@@ -15,6 +15,7 @@ services:
 
   nginx:
     image: nginx:1.27
+    container_name: nginx-reverse-proxy
     ports:
       - "9443:443"
     volumes:
